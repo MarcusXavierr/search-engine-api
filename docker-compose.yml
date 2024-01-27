@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  elasticsearch:
+    container_name: elasticsearch_search_api
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.4
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+    ports:
+      - ${ELASTIC_EXTERNAL_PORT}:9200
+    networks:
+      - search-api
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - ${ES_VOLUME_PATH}:/usr/share/elasticsearch/data
+    user: ${USER_GROUP}
+    deploy:
+      resources:
+        limits:
+          cpus: ${ELASTIC_CPU}
+          memory: ${ELASTIC_MEMORY}
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.4
+    container_name: kibana_search_api
+    environment:
+      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: d1a66dfd-c4d3-4a0a-8290-2abcb83ab3aa
+    ports:
+      - ${KIBANA_EXTERNAL_PORT}:5601
+    networks:
+      - search-api
+    volumes:
+      - ${KIBANA_VOLUME}:/usr/share/kibana/data
+    user: ${USER_GROUP}
+    depends_on:
+      - elasticsearch
+    deploy:
+      resources:
+        limits:
+          cpus: ${KIBANA_CPU}
+          memory: ${KIBANA_MEMORY}
+
+volumes:
+  esdata:
+    driver: 'local'
+  kibanadata:
+    driver: 'local'
+
+networks:
+  search-api:
+    name: 'search-api'
+    driver: 'bridge'
