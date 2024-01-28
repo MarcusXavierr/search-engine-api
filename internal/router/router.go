@@ -13,6 +13,7 @@ func Initialize() {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 
+	initializeRoutes(router)
 	// Just an Hello world route
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello friend\n"))
