@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/MarcusXavierr/search-engine-api/internal/router"
+)
 
 func main() {
-	fmt.Println("Hello friend")
+	router.Initialize()
 }
