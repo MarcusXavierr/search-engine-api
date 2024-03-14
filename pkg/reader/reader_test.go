@@ -5,7 +5,7 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"github.com/MarcusXavierr/search-engine-api/pkg/elasticsearch/reader"
+	"github.com/MarcusXavierr/search-engine-api/pkg/reader"
 )
 
 type Person struct {
