@@ -1,3 +1,5 @@
 docker-data/
 .env
 TODO.md
+
+dist/
