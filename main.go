@@ -14,6 +14,10 @@ func main() {
 	password := os.Getenv("ELASTIC_PASSWORD")
 	url := os.Getenv("ELASTIC_URL")
 
+	if username == "" || password == "" || url == "" {
+		panic("Missing environment variables, use the .env.example file as a reference")
+	}
+
 	client, err := elasticsearch.NewClient(elasticsearch.Config{
 		Username:  username,
 		Password:  password,
