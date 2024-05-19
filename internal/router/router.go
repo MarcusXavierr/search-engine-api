@@ -5,15 +5,16 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func Initialize() {
+func Initialize(esclient *elasticsearch.Client) {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 
-	initializeRoutes(router)
+	initializeRoutes(router, esclient)
 	// Just an Hello world route
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello friend\n"))
