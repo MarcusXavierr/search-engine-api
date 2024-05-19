@@ -78,5 +78,21 @@ func parseHit(hit map[string]interface{}) (elasticsearch.ParagraphDocument, erro
 		return elasticsearch.ParagraphDocument{}, errors.New("Error while unmarshalling paragraph")
 	}
 
+	p = useHighlightAsContent(p, hit)
 	return p, nil
+}
+
+func useHighlightAsContent(paragraph elasticsearch.ParagraphDocument, hit map[string]interface{}) elasticsearch.ParagraphDocument {
+	highlight, ok := hit["highlight"].(map[string]interface{})
+	if !ok {
+		return paragraph
+	}
+
+	content := highlight["content"].([]interface{})
+	if len(content) == 0 {
+		return paragraph
+	}
+
+	paragraph.Content = content[0].(string)
+	return paragraph
 }
