@@ -11,7 +11,7 @@ import (
 
 	"github.com/MarcusXavierr/search-engine-api/pkg/elasticsearch"
 	"github.com/MarcusXavierr/search-engine-api/pkg/elasticsearch/write"
-	"github.com/elastic/go-elasticsearch/v8/esutil"
+	"github.com/elastic/go-elasticsearch/v7/esutil"
 )
 
 const indexName = "any_index"
