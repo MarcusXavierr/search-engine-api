@@ -18,6 +18,8 @@ func (a BlogQuery) GetQuery() io.Reader {
 }
 
 func MountBlogSearchQuery(sentence string, size int, uniqueTitles bool) BlogQuery {
+	var empty struct{}
+
 	query := BlogQuery{
 		Size: size,
 		Query: &query{
@@ -25,6 +27,10 @@ func MountBlogSearchQuery(sentence string, size int, uniqueTitles bool) BlogQuer
 				Query:  sentence,
 				Fields: []string{"title^3", "content"},
 			},
+		},
+		Hightlight: &Highlight{
+			Fields:       []genericField{genericField{"content": empty}},
+			NumFragments: 1,
 		},
 	}
 

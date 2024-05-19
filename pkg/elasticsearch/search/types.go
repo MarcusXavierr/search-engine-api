@@ -1,9 +1,10 @@
 package search
 
 type BlogQuery struct {
-	Size     int       `json:"size"`
-	Query    *query    `json:"query"`
-	Collapse *collapse `json:"collapse,omitempty"`
+	Size       int        `json:"size"`
+	Query      *query     `json:"query"`
+	Collapse   *collapse  `json:"collapse,omitempty"`
+	Hightlight *Highlight `json:"highlight,omitempty"`
 }
 
 type query struct {
@@ -29,3 +30,11 @@ type innerHits struct {
 type sort struct {
 	Score string `json:"_score,omitempty"`
 }
+
+type Highlight struct {
+	NumFragments int            `json:"number_of_fragments,omitempty"`
+	FragmentSize int            `json:"fragment_size,omitempty"`
+	Fields       []genericField `json:"fields"`
+}
+
+type genericField map[string]interface{}
